@@ -1,0 +1,2 @@
+export const industryNameOptions = ["hospitality", "retail", "healthcare", "education", "office", "agriculture", "manufacturing", "general"] as const
+export type IndustryName = typeof industryNameOptions[number]
