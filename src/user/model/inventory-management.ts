@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const inventoryManagementSchema = new mongoose.Schema({
     userEmail: {
         type: String,
+        unique: true,
         required: true
     },
     inventoryItems: {
@@ -16,18 +17,40 @@ const inventoryManagementSchema = new mongoose.Schema({
             stock: Number, 
             status: {
                 type: String,
+                required: true,
                 enum: ["In Stock", "Low Stock", "Out of Stock"]
             }
         }>
     },
     thresholdSettings: {
-        type: Array<{itemName: Number, currentStock: Number, reorderLevel: Number, minStock: Number, maxStock: Number, autoAlerts: Boolean, status: String}>
+        type: Array<{
+            itemName: Number, 
+            currentStock: Number, 
+            reorderLevel: Number, 
+            minStock: Number, 
+            maxStock: Number, 
+            autoAlerts: Boolean, 
+            status: String
+        }>
     },
     unitOfMesurement: {
-        type: Array<{name: String, abbreviation: String, category: String, conversion: String, description: String}>
+        type: Array<{
+            name: String, 
+            abbreviation: String, 
+            category: String, 
+            conversion: String, 
+            description: String
+        }>
     },
     writeOffRequests: {
-        type: Array<{name: String, quantity: Number, reason: String, requestedBy: String, requestDate: String, status: String}>
+        type: Array<{
+            name: String, 
+            quantity: Number, 
+            reason: String, 
+            requestedBy: String, 
+            requestDate: String, 
+            status: String
+        }>
     },
     categories: {
         type: Array<{
@@ -43,7 +66,10 @@ const inventoryManagementSchema = new mongoose.Schema({
             }
         }>
     },
-    currency: Array<{name: String, symbol: String}>
+    currency: Array<{
+        name: String, 
+        symbol: String
+    }>
 }, {timestamps: true})
 
 const InventoryManagement = mongoose.models.InventoryManagement || mongoose.model("InventoryManagement", inventoryManagementSchema)

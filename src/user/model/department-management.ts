@@ -6,7 +6,16 @@ const departmentManagementSchema = new mongoose.Schema({
         required: true
     },
     departments: {
-        type: Array<{type: String, description: String, headOfDept: String, customerFacing: Boolean, linkToStores: Array<{name: String, location: String}>}>
+        type: Array<{
+            type: String, 
+            description: String, 
+            headOfDept: String, 
+            customerFacing: Boolean,
+            linkToStores: Array<{
+                name: String, 
+                location: String
+            }>
+        }>
     }
 }, { timestamps: true })
 

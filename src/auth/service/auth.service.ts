@@ -8,23 +8,25 @@ import { LoginDto } from '../dto/login.dto';
 
 @Injectable()
 export class AuthService {
-    constructor (private configService: ConfigService) {}
+    private readonly dbPassword: string;
+
+    constructor (private configService: ConfigService) {
+        this.dbPassword = this.configService.get<string>("DB_PASSWORD") || ""
+    }
 
     async create(userAccountDto: UserAccountDto){
         const { fullName, businessName, email, password } = userAccountDto
 
         const hashedPassword  = await bcrypt.hash(password, 10)
-        const dbPassword = this.configService.get("DB_PASSWORD")
 
-        await connectDB(dbPassword)
+        await connectDB(this.dbPassword)
         await User.create({ fullName, businessName, email, password: hashedPassword })
     }
 
     async login(loginDto: LoginDto){
         const { email, password } = loginDto
-        const dbPassword = this.configService.get("DB_PASSWORD")
 
-        await connectDB(dbPassword)
+        await connectDB(this.dbPassword)
         const user = await User.findOne({ email })
 
         if (!user){
@@ -32,7 +34,10 @@ export class AuthService {
         }
 
         if (await bcrypt.compare(password, user.password)){
-            return { email }
+            return { 
+                id: user.id,
+                email
+            }
         } 
 
         throw new Error("Incorrect password")
