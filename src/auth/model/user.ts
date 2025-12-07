@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import { industryNameOptions } from "src/interface/industry"
+import { industryNameOptions, userDesignationOptions } from "src/interface/industry"
 
 const userSchema = new mongoose.Schema({
     fullName: {
@@ -18,6 +18,11 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    designation: {
+        type: String,
+        enum: [...userDesignationOptions],
+        default: "user"
     },
     industry: {
         type: String,

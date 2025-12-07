@@ -144,4 +144,100 @@ export class InventoryRepository {
             throw err
         }
     }
+
+    async getInventory(userEmail: string){
+        await connectDB(this.dbPassword)
+
+        const user = await User.findOne({ email: userEmail })
+
+        if (!user){
+            throw new Error("User not found")
+        }
+
+        const doc = await InventoryManagement.findOne({ userEmail }).lean().exec()
+        if (doc && !Array.isArray(doc) && 'inventoryItems' in doc) {
+            return doc.inventoryItems || []
+        }
+        return []
+    }
+
+    async getThresholdSettings(userEmail: string){
+        await connectDB(this.dbPassword)
+
+        const user = await User.findOne({ email: userEmail })
+
+        if (!user){
+            throw new Error("User not found")
+        }
+
+        const doc = await InventoryManagement.findOne({ userEmail }).lean().exec()
+        if (doc && !Array.isArray(doc) && 'thresholdSettings' in doc) {
+            return doc.thresholdSettings || []
+        }
+        return []
+    }
+
+    async getUnitOfMesurement(userEmail: string){
+        await connectDB(this.dbPassword)
+
+        const user = await User.findOne({ email: userEmail })
+
+        if (!user){
+            throw new Error("User not found")
+        }
+
+        const doc = await InventoryManagement.findOne({ userEmail }).lean().exec()
+        if (doc && !Array.isArray(doc) && 'unitOfMesurement' in doc) {
+            return doc.unitOfMesurement || []
+        }
+        return []
+    }
+
+    async getWriteOffRequests(userEmail: string){
+        await connectDB(this.dbPassword)
+
+        const user = await User.findOne({ email: userEmail })
+
+        if (!user){
+            throw new Error("User not found")
+        }
+
+        const doc = await InventoryManagement.findOne({ userEmail }).lean().exec()
+        if (doc && !Array.isArray(doc) && 'writeOffRequests' in doc) {
+            return doc.writeOffRequests || []
+        }
+        return []
+    }
+
+    async getCategories(userEmail: string){
+        await connectDB(this.dbPassword)
+
+        const user = await User.findOne({ email: userEmail })
+
+        if (!user){
+            throw new Error("User not found")
+        }
+
+        const doc = await InventoryManagement.findOne({ userEmail }).lean().exec()
+        if (doc && !Array.isArray(doc) && 'categories' in doc) {
+            return doc.categories || []
+        }
+        return []
+    }
+
+    async getCurrency(userEmail: string){
+        await connectDB(this.dbPassword)
+
+        const user = await User.findOne({ email: userEmail })
+
+        if (!user){
+            throw new Error("User not found")
+        }
+
+        const doc = await InventoryManagement.findOne({ userEmail }).lean().exec()
+        if (doc && !Array.isArray(doc) && 'currency' in doc) {
+            return doc.currency || []
+        }
+        return []
+    }
 }
