@@ -82,4 +82,54 @@ export class CreditorsRepository {
             throw err
         }
     }
+
+    async updateCreditor(userEmail: string, supplierName: string, updates: Partial<CreditorsDto>){
+        await connectDB(this.dbPassword)
+
+        const user = await User.findOne({ email: userEmail })
+
+        if (!user){
+            throw new Error("User not found")
+        }
+
+        const doc = await CreditorsManagement.findOne({ userEmail }).exec()
+
+        if (!doc || !Array.isArray((doc as any).creditors)){
+            throw new Error("Creditors not found for user")
+        }
+
+        const creditors: any[] = (doc as any).creditors
+        const creditorIndex = creditors.findIndex(c => c.supplierName === supplierName)
+
+        if (creditorIndex === -1){
+            throw new Error("Creditor with provided supplier name not found")
+        }
+
+        try {
+            const updateObj: any = {}
+            
+            if (updates.originalAmount !== undefined) {
+                updateObj[`creditors.${creditorIndex}.originalAmount`] = updates.originalAmount
+            }
+            if (updates.remainingBalance !== undefined) {
+                updateObj[`creditors.${creditorIndex}.remainingBalance`] = updates.remainingBalance
+            }
+            if (updates.status !== undefined) {
+                updateObj[`creditors.${creditorIndex}.status`] = updates.status
+            }
+            if (updates.creationDate !== undefined) {
+                updateObj[`creditors.${creditorIndex}.creationDate`] = updates.creationDate
+            }
+
+            const updated = await CreditorsManagement.findOneAndUpdate(
+                { userEmail },
+                { $set: updateObj },
+                { new: true }
+            ).exec()
+
+            return updated
+        } catch (err) {
+            throw err
+        }
+    }
 }

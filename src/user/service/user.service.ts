@@ -6,7 +6,7 @@ import { DepartmentRepository } from '../repository/department.repository';
 import { SupplierRepository } from '../repository/supplier.repository';
 import { SupplierDto } from '../dtos/supplier-management.dto';
 import { ReceivablesRepository } from '../repository/receivables.repository';
-import { ReceivablesDto } from '../dtos/receivables-management.dto';
+import { ReceivablesDto, ReceivablePaymentDto } from '../dtos/receivables-management.dto';
 import { CreditorsRepository } from '../repository/creditors.repository';
 import { CreditorsDto } from '../dtos/creditors-management.dto';
 import { ProcurementDto } from '../dtos/procurement-management.dto';
@@ -145,6 +145,14 @@ export class UserService {
         return this.reveivablesRepository.deleteReceivable(userEmail, itemIndex)
     }
 
+    async updateReceivablePayment(userEmail: string, customerName: string, cashierName: string, payment: ReceivablePaymentDto){
+        return this.reveivablesRepository.updateReceivablePayment(userEmail, customerName, cashierName, payment)
+    }
+
+    async getPaymentHistory(userEmail: string, customerName: string, cashierName: string){
+        return this.reveivablesRepository.getPaymentHistory(userEmail, customerName, cashierName)
+    }
+
     // Creditors repositories
     async addCreditor(userEmail: string, creditor: CreditorsDto){
         return this.creditorsRepository.addCreditor(userEmail, creditor)
@@ -156,6 +164,10 @@ export class UserService {
 
     async deleteCreditor(userEmail: string, itemIndex: number){
         return this.creditorsRepository.deleteCreditor(userEmail, itemIndex)
+    }
+
+    async updateCreditor(userEmail: string, supplierName: string, updates: Partial<CreditorsDto>){
+        return this.creditorsRepository.updateCreditor(userEmail, supplierName, updates)
     }
 
     // Procurement repositories

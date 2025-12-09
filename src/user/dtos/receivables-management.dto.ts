@@ -2,7 +2,7 @@ import { IsIn, IsNumber, IsString } from "class-validator";
 
 export class ReceivablesDto {
     @IsString()
-    readonly cashier: string
+    readonly cashierName: string
 
     @IsString()
     readonly customerName: string
@@ -19,4 +19,21 @@ export class ReceivablesDto {
     @IsString()
     @IsIn(["partially paid", "unsettled", "settled"])
     readonly status: string
+}
+
+export class ReceivablePaymentDto {
+    @IsString()
+    readonly customerName: string
+
+    @IsString()
+    readonly cashierName: string
+
+    @IsNumber()
+    readonly amount: number
+
+    @IsString()
+    readonly date: string
+
+    @IsString()
+    readonly note?: string
 }

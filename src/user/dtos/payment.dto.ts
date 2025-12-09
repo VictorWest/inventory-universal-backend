@@ -8,7 +8,7 @@ export class PaymentDto {
     readonly reference: string
 
     @IsString()
-    readonly customerEmail: string
+    readonly cashierName: string
 
     @IsNumber()
     readonly amount: number

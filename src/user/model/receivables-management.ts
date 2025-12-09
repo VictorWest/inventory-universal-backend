@@ -7,7 +7,7 @@ const receivablesManagementSchema = new mongoose.Schema({
     },
     receivables: {
         type: Array<{
-            cashier: String, 
+            cashierName: String, 
             customerName: String, 
             amount: Number, 
             creationDate: String, 
@@ -15,6 +15,15 @@ const receivablesManagementSchema = new mongoose.Schema({
             status: {
                 type: String,
                 enum: ["partially paid", "unsettled", "settled"]
+            },
+            paymentHistory: {
+                type: Array<{
+                    amount: Number,
+                    date: String,
+                    note: String,
+                    cashier: String
+                }>,
+                default: []
             }
         }>
     }

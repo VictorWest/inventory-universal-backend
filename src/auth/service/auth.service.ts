@@ -34,9 +34,13 @@ export class AuthService {
         }
 
         if (await bcrypt.compare(password, user.password)){
-            return { 
+            return {
                 id: user.id,
-                email
+                fullName: user.fullName,
+                businessName: user.businessName,
+                email,
+                designation: user.designation,
+                industry: user.industry
             }
         } 
 
