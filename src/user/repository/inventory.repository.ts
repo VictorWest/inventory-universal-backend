@@ -240,4 +240,172 @@ export class InventoryRepository {
         }
         return []
     }
+
+    async deleteInventoryItem(userEmail: string, itemIndex: number){
+        await connectDB(this.dbPassword)
+
+        const user = await User.findOne({ email: userEmail })
+
+        if (!user){
+            throw new Error("User not found")
+        }
+
+        try {
+            const updated = await InventoryManagement.findOneAndUpdate(
+                { userEmail },
+                { $unset: { [`inventoryItems.${itemIndex}`]: 1 } },
+                { new: true }
+            ).exec()
+
+            await InventoryManagement.findOneAndUpdate(
+                { userEmail },
+                { $pull: { inventoryItems: null } },
+                { new: true }
+            ).exec()
+
+            return updated
+        } catch (err) {
+            throw err
+        }
+    }
+
+    async deleteThresholdSetting(userEmail: string, itemIndex: number){
+        await connectDB(this.dbPassword)
+
+        const user = await User.findOne({ email: userEmail })
+
+        if (!user){
+            throw new Error("User not found")
+        }
+
+        try {
+            await InventoryManagement.findOneAndUpdate(
+                { userEmail },
+                { $unset: { [`thresholdSettings.${itemIndex}`]: 1 } },
+                { new: true }
+            ).exec()
+
+            const updated = await InventoryManagement.findOneAndUpdate(
+                { userEmail },
+                { $pull: { thresholdSettings: null } },
+                { new: true }
+            ).exec()
+
+            return updated
+        } catch (err) {
+            throw err
+        }
+    }
+
+    async deleteUnitOfMeasurement(userEmail: string, itemIndex: number){
+        await connectDB(this.dbPassword)
+
+        const user = await User.findOne({ email: userEmail })
+
+        if (!user){
+            throw new Error("User not found")
+        }
+
+        try {
+            await InventoryManagement.findOneAndUpdate(
+                { userEmail },
+                { $unset: { [`unitOfMesurement.${itemIndex}`]: 1 } },
+                { new: true }
+            ).exec()
+
+            const updated = await InventoryManagement.findOneAndUpdate(
+                { userEmail },
+                { $pull: { unitOfMesurement: null } },
+                { new: true }
+            ).exec()
+
+            return updated
+        } catch (err) {
+            throw err
+        }
+    }
+
+    async deleteWriteOffRequest(userEmail: string, itemIndex: number){
+        await connectDB(this.dbPassword)
+
+        const user = await User.findOne({ email: userEmail })
+
+        if (!user){
+            throw new Error("User not found")
+        }
+
+        try {
+            await InventoryManagement.findOneAndUpdate(
+                { userEmail },
+                { $unset: { [`writeOffRequests.${itemIndex}`]: 1 } },
+                { new: true }
+            ).exec()
+
+            const updated = await InventoryManagement.findOneAndUpdate(
+                { userEmail },
+                { $pull: { writeOffRequests: null } },
+                { new: true }
+            ).exec()
+
+            return updated
+        } catch (err) {
+            throw err
+        }
+    }
+
+    async deleteCategory(userEmail: string, itemIndex: number){
+        await connectDB(this.dbPassword)
+
+        const user = await User.findOne({ email: userEmail })
+
+        if (!user){
+            throw new Error("User not found")
+        }
+
+        try {
+            await InventoryManagement.findOneAndUpdate(
+                { userEmail },
+                { $unset: { [`categories.${itemIndex}`]: 1 } },
+                { new: true }
+            ).exec()
+
+            const updated = await InventoryManagement.findOneAndUpdate(
+                { userEmail },
+                { $pull: { categories: null } },
+                { new: true }
+            ).exec()
+
+            return updated
+        } catch (err) {
+            throw err
+        }
+    }
+
+    async deleteCurrency(userEmail: string, itemIndex: number){
+        await connectDB(this.dbPassword)
+
+        const user = await User.findOne({ email: userEmail })
+
+        if (!user){
+            throw new Error("User not found")
+        }
+
+        try {
+            await InventoryManagement.findOneAndUpdate(
+                { userEmail },
+                { $unset: { [`currency.${itemIndex}`]: 1 } },
+                { new: true }
+            ).exec()
+
+            const updated = await InventoryManagement.findOneAndUpdate(
+                { userEmail },
+                { $pull: { currency: null } },
+                { new: true }
+            ).exec()
+
+            return updated
+        } catch (err) {
+            throw err
+        }
+    }
 }

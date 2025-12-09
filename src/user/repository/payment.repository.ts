@@ -29,4 +29,34 @@ export class PaymentRepository {
             throw err
         }
     }
+
+    async getPayments(userEmail: string){
+        await connectDB(this.dbPassword)
+
+        const user = await User.findOne({ email: userEmail })
+
+        if (!user){
+            throw new Error("User not found")
+        }
+
+        const docs = await Payment.find({ userEmail }).lean().exec()
+        return docs || []
+    }
+
+    async deletePayment(userEmail: string, paymentId: string){
+        await connectDB(this.dbPassword)
+
+        const user = await User.findOne({ email: userEmail })
+
+        if (!user){
+            throw new Error("User not found")
+        }
+
+        try {
+            const deleted = await Payment.findByIdAndDelete(paymentId).exec()
+            return deleted
+        } catch (err) {
+            throw err
+        }
+    }
 }

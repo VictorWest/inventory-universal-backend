@@ -1,4 +1,4 @@
-import { Body, Controller, HttpException, HttpStatus, Param, Post, Query, Get } from '@nestjs/common';
+import { Body, Controller, HttpException, HttpStatus, Param, Post, Query, Get, Delete } from '@nestjs/common';
 import { UserService } from '../service/user.service';
 import { InventoryItemDto, ThresholdSettingDto, UnitOfMeasurementDto, WriteOffRequestDto, CategoryDto, CurrencyDto } from '../dtos/inventory-mangement.dto';
 import { ResponseDto } from 'src/dtos/response.dto';
@@ -285,6 +285,292 @@ export class UserController {
         } catch (error) {
                 throw new HttpException(
                 new ErrorDto(error.message || "Failed to fetch currencies", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Get('departments/:userEmail')
+    async getDepartments(@Param('userEmail') userEmail: string){
+        try {
+            const data = await this.userService.getDepartments(userEmail)
+            return new ResponseDto(true, "Departments fetched successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to fetch departments", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Get('suppliers/:userEmail')
+    async getSuppliers(@Param('userEmail') userEmail: string){
+        try {
+            const data = await this.userService.getSuppliers(userEmail)
+            return new ResponseDto(true, "Suppliers fetched successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to fetch suppliers", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Get('receivables/:userEmail')
+    async getReceivables(@Param('userEmail') userEmail: string){
+        try {
+            const data = await this.userService.getReceivables(userEmail)
+            return new ResponseDto(true, "Receivables fetched successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to fetch receivables", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Get('creditors/:userEmail')
+    async getCreditors(@Param('userEmail') userEmail: string){
+        try {
+            const data = await this.userService.getCreditors(userEmail)
+            return new ResponseDto(true, "Creditors fetched successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to fetch creditors", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Get('procurements/:userEmail')
+    async getProcurements(@Param('userEmail') userEmail: string){
+        try {
+            const data = await this.userService.getProcurementRequests(userEmail)
+            return new ResponseDto(true, "Procurements fetched successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to fetch procurements", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Get('users/:userEmail')
+    async getUsers(@Param('userEmail') userEmail: string){
+        try {
+            const data = await this.userService.getUsers(userEmail)
+            return new ResponseDto(true, "Users fetched successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to fetch users", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Get('payments/:userEmail')
+    async getPayments(@Param('userEmail') userEmail: string){
+        try {
+            const data = await this.userService.getPayments(userEmail)
+            return new ResponseDto(true, "Payments fetched successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to fetch payments", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Get('customers/:userEmail')
+    async getCustomers(@Param('userEmail') userEmail: string){
+        try {
+            const data = await this.userService.getCustomers(userEmail)
+            return new ResponseDto(true, "Customers fetched successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to fetch customers", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Delete('inventory/:userEmail/:index')
+    async deleteInventoryItem(@Param('userEmail') userEmail: string, @Param('index') index: string){
+        try {
+            const data = await this.userService.deleteInventoryItem(userEmail, parseInt(index))
+            return new ResponseDto(true, "Inventory item deleted successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to delete inventory item", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Delete('thresholds/:userEmail/:index')
+    async deleteThresholdSetting(@Param('userEmail') userEmail: string, @Param('index') index: string){
+        try {
+            const data = await this.userService.deleteThresholdSetting(userEmail, parseInt(index))
+            return new ResponseDto(true, "Threshold setting deleted successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to delete threshold setting", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Delete('measurements/:userEmail/:index')
+    async deleteUnitOfMeasurement(@Param('userEmail') userEmail: string, @Param('index') index: string){
+        try {
+            const data = await this.userService.deleteUnitOfMeasurement(userEmail, parseInt(index))
+            return new ResponseDto(true, "Unit of measurement deleted successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to delete unit of measurement", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Delete('write-offs/:userEmail/:index')
+    async deleteWriteOffRequest(@Param('userEmail') userEmail: string, @Param('index') index: string){
+        try {
+            const data = await this.userService.deleteWriteOffRequest(userEmail, parseInt(index))
+            return new ResponseDto(true, "Write-off request deleted successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to delete write-off request", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Delete('categories/:userEmail/:index')
+    async deleteCategory(@Param('userEmail') userEmail: string, @Param('index') index: string){
+        try {
+            const data = await this.userService.deleteCategory(userEmail, parseInt(index))
+            return new ResponseDto(true, "Category deleted successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to delete category", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Delete('currencies/:userEmail/:index')
+    async deleteCurrency(@Param('userEmail') userEmail: string, @Param('index') index: string){
+        try {
+            const data = await this.userService.deleteCurrency(userEmail, parseInt(index))
+            return new ResponseDto(true, "Currency deleted successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to delete currency", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Delete('departments/:userEmail/:index')
+    async deleteDepartment(@Param('userEmail') userEmail: string, @Param('index') index: string){
+        try {
+            const data = await this.userService.deleteDepartment(userEmail, parseInt(index))
+            return new ResponseDto(true, "Department deleted successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to delete department", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Delete('suppliers/:userEmail/:index')
+    async deleteSupplier(@Param('userEmail') userEmail: string, @Param('index') index: string){
+        try {
+            const data = await this.userService.deleteSupplier(userEmail, parseInt(index))
+            return new ResponseDto(true, "Supplier deleted successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to delete supplier", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Delete('receivables/:userEmail/:index')
+    async deleteReceivable(@Param('userEmail') userEmail: string, @Param('index') index: string){
+        try {
+            const data = await this.userService.deleteReceivable(userEmail, parseInt(index))
+            return new ResponseDto(true, "Receivable deleted successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to delete receivable", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Delete('creditors/:userEmail/:index')
+    async deleteCreditor(@Param('userEmail') userEmail: string, @Param('index') index: string){
+        try {
+            const data = await this.userService.deleteCreditor(userEmail, parseInt(index))
+            return new ResponseDto(true, "Creditor deleted successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to delete creditor", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Delete('procurements/:userEmail/:index')
+    async deleteProcurementRequest(@Param('userEmail') userEmail: string, @Param('index') index: string){
+        try {
+            const data = await this.userService.deleteProcurementRequest(userEmail, parseInt(index))
+            return new ResponseDto(true, "Procurement request deleted successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to delete procurement request", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Delete('users/:userEmail/:index')
+    async deleteUser(@Param('userEmail') userEmail: string, @Param('index') index: string){
+        try {
+            const data = await this.userService.deleteUser(userEmail, parseInt(index))
+            return new ResponseDto(true, "User deleted successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to delete user", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Delete('payments/:userEmail/:paymentId')
+    async deletePayment(@Param('userEmail') userEmail: string, @Param('paymentId') paymentId: string){
+        try {
+            const data = await this.userService.deletePayment(userEmail, paymentId)
+            return new ResponseDto(true, "Payment deleted successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to delete payment", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Delete('customers/:userEmail/:customerId')
+    async deleteCustomer(@Param('userEmail') userEmail: string, @Param('customerId') customerId: string){
+        try {
+            const data = await this.userService.deleteCustomer(userEmail, customerId)
+            return new ResponseDto(true, "Customer deleted successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to delete customer", error),
                 error.status || HttpStatus.BAD_REQUEST
             )
         }

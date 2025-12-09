@@ -57,4 +57,51 @@ export class UserRepository {
             throw err
         }
     }
+
+    async getUsers(userEmail: string){
+        await connectDB(this.dbPassword)
+
+        const userInstance = await User.findOne({ email: userEmail })
+
+        if (!userInstance){
+            throw new Error("User not found")
+        }
+
+        const doc = await UserManagement.findOne({ userEmail }).lean().exec()
+        // return (doc && doc.users) || []
+        if (doc && !Array.isArray(doc) && 'users' in doc) {
+            return doc.users || []
+        }
+    }
+
+    async deleteUser(userEmail: string, itemIndex: number){
+        await connectDB(this.dbPassword)
+
+        const userInstance = await User.findOne({ email: userEmail })
+
+        if (!userInstance){
+            throw new Error("User not found")
+        }
+
+        try {
+            const unsetObj: any = {}
+            unsetObj[`users.${itemIndex}`] = 1
+            
+            await UserManagement.findOneAndUpdate(
+                { userEmail },
+                { $unset: unsetObj },
+                { new: true }
+            ).exec()
+
+            const updated = await UserManagement.findOneAndUpdate(
+                { userEmail },
+                { $pull: { users: null } },
+                { new: true }
+            ).exec()
+
+            return updated
+        } catch (err) {
+            throw err
+        }
+    }
 }

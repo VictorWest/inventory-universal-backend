@@ -82,9 +82,41 @@ export class UserService {
         return this.inventoryRepository.getCurrency(userEmail)
     }
 
+    async deleteInventoryItem(userEmail: string, itemIndex: number){
+        return this.inventoryRepository.deleteInventoryItem(userEmail, itemIndex)
+    }
+
+    async deleteThresholdSetting(userEmail: string, itemIndex: number){
+        return this.inventoryRepository.deleteThresholdSetting(userEmail, itemIndex)
+    }
+
+    async deleteUnitOfMeasurement(userEmail: string, itemIndex: number){
+        return this.inventoryRepository.deleteUnitOfMeasurement(userEmail, itemIndex)
+    }
+
+    async deleteWriteOffRequest(userEmail: string, itemIndex: number){
+        return this.inventoryRepository.deleteWriteOffRequest(userEmail, itemIndex)
+    }
+
+    async deleteCategory(userEmail: string, itemIndex: number){
+        return this.inventoryRepository.deleteCategory(userEmail, itemIndex)
+    }
+
+    async deleteCurrency(userEmail: string, itemIndex: number){
+        return this.inventoryRepository.deleteCurrency(userEmail, itemIndex)
+    }
+
     // Department repositories
     async addDepartment(userEmail: string, department: DepartmentDto){
         return this.departmentRepository.addDepartment(userEmail, department)
+    }
+
+    async getDepartments(userEmail: string){
+        return this.departmentRepository.getDepartments(userEmail)
+    }
+
+    async deleteDepartment(userEmail: string, itemIndex: number){
+        return this.departmentRepository.deleteDepartment(userEmail, itemIndex)
     }
 
     // Supplier repositories
@@ -92,9 +124,25 @@ export class UserService {
         return this.supplierRepository.addSupplier(userEmail, supplier)
     }
 
+    async getSuppliers(userEmail: string){
+        return this.supplierRepository.getSuppliers(userEmail)
+    }
+
+    async deleteSupplier(userEmail: string, itemIndex: number){
+        return this.supplierRepository.deleteSupplier(userEmail, itemIndex)
+    }
+
     // Receivables repositories
     async addReceivable(userEmail: string, receivable: ReceivablesDto){
         return this.reveivablesRepository.addReceivable(userEmail, receivable)
+    }
+
+    async getReceivables(userEmail: string){
+        return this.reveivablesRepository.getReceivables(userEmail)
+    }
+
+    async deleteReceivable(userEmail: string, itemIndex: number){
+        return this.reveivablesRepository.deleteReceivable(userEmail, itemIndex)
     }
 
     // Creditors repositories
@@ -102,9 +150,25 @@ export class UserService {
         return this.creditorsRepository.addCreditor(userEmail, creditor)
     }
 
+    async getCreditors(userEmail: string){
+        return this.creditorsRepository.getCreditors(userEmail)
+    }
+
+    async deleteCreditor(userEmail: string, itemIndex: number){
+        return this.creditorsRepository.deleteCreditor(userEmail, itemIndex)
+    }
+
     // Procurement repositories
     async addProcurement(userEmail: string, procurement: ProcurementDto){
         return this.procurementRepository.addProcurement(userEmail, procurement)
+    }
+
+    async getProcurementRequests(userEmail: string){
+        return this.procurementRepository.getRequests(userEmail)
+    }
+
+    async deleteProcurementRequest(userEmail: string, itemIndex: number){
+        return this.procurementRepository.deleteRequest(userEmail, itemIndex)
     }
 
     // User repositories
@@ -116,13 +180,37 @@ export class UserService {
         return this.userRepository.addUser(userEmail, user)
     }
 
+    async getUsers(userEmail: string){
+        return this.userRepository.getUsers(userEmail)
+    }
+
+    async deleteUser(userEmail: string, itemIndex: number){
+        return this.userRepository.deleteUser(userEmail, itemIndex)
+    }
+
     // Payment repositories
     async addPayment(userEmail: string, payment: PaymentDto){
         return this.paymentRepository.addPayment(userEmail, payment)
     }
 
+    async getPayments(userEmail: string){
+        return this.paymentRepository.getPayments(userEmail)
+    }
+
+    async deletePayment(userEmail: string, paymentId: string){
+        return this.paymentRepository.deletePayment(userEmail, paymentId)
+    }
+
     // Customer repositories
     async addCustomer(userEmail: string, customer: CustomerDto){
         return this.customerRepository.addCustomer(userEmail, customer)
+    }
+
+    async getCustomers(userEmail: string){
+        return this.customerRepository.getCustomers(userEmail)
+    }
+
+    async deleteCustomer(userEmail: string, customerId: string){
+        return this.customerRepository.deleteCustomer(userEmail, customerId)
     }
 }

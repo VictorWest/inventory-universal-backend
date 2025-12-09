@@ -8,13 +8,17 @@ const departmentManagementSchema = new mongoose.Schema({
     departments: {
         type: Array<{
             type: String, 
+            name: String,
             description: String, 
-            headOfDept: String, 
-            customerFacing: Boolean,
+            location: String;
+            headId: String;
+            headName: String;
+            isCustomerFacing: Boolean;
             linkToStores: Array<{
                 name: String, 
                 location: String
-            }>
+            }>;
+            lastActivity: String;
         }>
     }
 }, { timestamps: true })
