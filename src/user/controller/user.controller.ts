@@ -1,11 +1,11 @@
-import { Body, Controller, HttpException, HttpStatus, Param, Post, Query, Get, Delete } from '@nestjs/common';
+import { Body, Controller, HttpException, HttpStatus, Param, Post, Query, Get, Delete, Patch } from '@nestjs/common';
 import { UserService } from '../service/user.service';
 import { InventoryItemDto, ThresholdSettingDto, UnitOfMeasurementDto, WriteOffRequestDto, CategoryDto, CurrencyDto } from '../dtos/inventory-mangement.dto';
 import { ResponseDto } from 'src/dtos/response.dto';
 import { ErrorDto } from 'src/dtos/error.dto';
 import { DepartmentDto } from '../dtos/department-management.dto';
 import { SupplierDto } from '../dtos/supplier-management.dto';
-import { ReceivablesDto } from '../dtos/receivables-management.dto';
+import { ReceivablesDto, ReceivablePaymentDto } from '../dtos/receivables-management.dto';
 import { CreditorsDto } from '../dtos/creditors-management.dto';
 import { ProcurementDto } from '../dtos/procurement-management.dto';
 import { UserManagementDto } from '../dtos/user-management.dto';
@@ -329,6 +329,36 @@ export class UserController {
         }
     }
 
+    @Patch('receivables/payment/:userEmail')
+    async updateReceivablePayment(@Param('userEmail') userEmail: string, @Body() paymentDto: ReceivablePaymentDto){
+        try {
+            const updated = await this.userService.updateReceivablePayment(userEmail, paymentDto.customerName, paymentDto.cashierName, paymentDto)
+            return new ResponseDto(true, "Payment applied successfully", updated)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to apply payment to receivable", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Get('receivables/payment/history/:userEmail')
+    async getPaymentHistory(
+        @Param('userEmail') userEmail: string,
+        @Query('customerName') customerName: string,
+        @Query('cashierName') cashierName: string
+    ){
+        try {
+            const paymentHistory = await this.userService.getPaymentHistory(userEmail, customerName, cashierName)
+            return new ResponseDto(true, "Payment history fetched successfully", paymentHistory)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to fetch payment history", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
     @Get('creditors/:userEmail')
     async getCreditors(@Param('userEmail') userEmail: string){
         try {
@@ -519,6 +549,23 @@ export class UserController {
         } catch (error) {
                 throw new HttpException(
                 new ErrorDto(error.message || "Failed to delete creditor", error),
+                error.status || HttpStatus.BAD_REQUEST
+            )
+        }
+    }
+
+    @Patch('creditors/:userEmail/:supplierName')
+    async updateCreditor(
+        @Param('userEmail') userEmail: string,
+        @Param('supplierName') supplierName: string,
+        @Body() updates: Partial<CreditorsDto>
+    ){
+        try {
+            const data = await this.userService.updateCreditor(userEmail, supplierName, updates)
+            return new ResponseDto(true, "Creditor updated successfully", data)
+        } catch (error) {
+                throw new HttpException(
+                new ErrorDto(error.message || "Failed to update creditor", error),
                 error.status || HttpStatus.BAD_REQUEST
             )
         }

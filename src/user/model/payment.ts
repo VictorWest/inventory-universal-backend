@@ -9,7 +9,7 @@ const paymentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    customerEmail: {
+    cashierName: {
         type: String,
         required: true
     },
